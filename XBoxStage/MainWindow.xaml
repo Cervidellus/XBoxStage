@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:XBoxStage"
         mc:Ignorable="d"
         
-        Title="XBoxStage" Height="350" Width="525">
+        Title="XBoxStage" Height="400" Width="800" Background="#FF9A9A9A">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="395*"/>
