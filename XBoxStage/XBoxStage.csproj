@@ -138,11 +138,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Thorlabs.MotionControl.DeviceManagerCLI.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Thorlabs.MotionControl.IntegratedStepperMotorsCLI.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="elite.png" />
     <Content Include="Thorlabs.APT.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Thorlabs.MotionControl.DeviceManager.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Thorlabs.MotionControl.GenericMotorCLI.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Thorlabs.MotionControl.IntegratedStepperMotors.dll">
