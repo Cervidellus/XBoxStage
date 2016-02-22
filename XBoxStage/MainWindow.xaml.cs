@@ -257,6 +257,7 @@ namespace XBoxStage
 
             // start the device polling            
             m_deviceX.StartPolling(250);
+            m_deviceX.EnableDevice();
 
             // Y axis -------------------------------------------------------
             m_deviceY = LongTravelStage.CreateLongTravelStage(m_yAxisID);
@@ -271,6 +272,8 @@ namespace XBoxStage
 
             // start the device polling            
             m_deviceY.StartPolling(250);
+            m_deviceY.EnableDevice();
+
             StageInitialized = true;
         }
 
