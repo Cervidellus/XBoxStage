@@ -134,7 +134,7 @@ namespace XBoxStage
                 Debug.WriteLine("ButtonAOneShot");
             };
 
-            OnXBoxGamepadButtonPressA += (s, e) =>
+            OnXBoxGamepadButtonPressB += (s, e) =>
             {
                 Debug.WriteLine("ButtonB");
             };
@@ -237,7 +237,7 @@ namespace XBoxStage
 
             if (m_xbox != null) FindXBoxController();
 
-            // Try to create synthetic stages (but Create will fail!)
+            // Try to create synthetic stages (but Create will fail!)d
             //var sx = DeviceManagerCLI.RegisterSimulation(xAxisID, typeID, "X axis");
             //var sy = DeviceManagerCLI.RegisterSimulation(yAxisID, typeID, "Y axis");
 
