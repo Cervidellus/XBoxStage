@@ -96,6 +96,18 @@ namespace XBoxStage
             get; set;
         }
 
+        // ----------------------------------------------------------------------
+        // Property notification boilerplate
+        // ----------------------------------------------------------------------
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         // ----------------------------------------------------------------------
         // MainWindow
@@ -135,18 +147,6 @@ namespace XBoxStage
             StageInitialized = false;
         }
 
-        // ----------------------------------------------------------------------
-        // Property notification boilerplate
-        // ----------------------------------------------------------------------
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
 
         // ----------------------------------------------------------------------
         // XBox
