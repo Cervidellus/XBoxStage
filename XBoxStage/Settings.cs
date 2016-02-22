@@ -9,6 +9,7 @@ using System.Windows;
 
 namespace XBoxStage
 {
+    // Put all values to be saved between sessions into this object
     class Settings
     {
         private const string filename = @"settings.json";
@@ -18,7 +19,7 @@ namespace XBoxStage
 
         public static void Save (Settings settings)
         {
-            File.WriteAllText(filename, JsonConvert.SerializeObject(settings));
+            File.WriteAllText(filename, JsonConvert.SerializeObject(settings, Formatting.Indented));
         }
         public static Settings Restore()
         {

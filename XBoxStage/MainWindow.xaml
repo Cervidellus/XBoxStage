@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:XBoxStage"
         mc:Ignorable="d"
         
-        Title="XBoxStage" Height="400" Width="800" Background="#FF9A9A9A">
+        Title="XBoxStage" Height="400" Width="800"
+        Background="{Binding EnabledBrush}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="395*"/>
@@ -16,8 +17,10 @@
         <StackPanel Grid.Column="1" Margin="10,14.05,10,127.379" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <Button x:Name="buttonConnect" Content="Connect" Height="19" Click="buttonConnect_Click" d:LayoutOverrides="LeftPosition, RightPosition" Margin="0,4"/>
             <Button x:Name="buttonDisconnect" Content="Disconnect" Height="19" Click="buttonDisconnect_Click" d:LayoutOverrides="LeftPosition, RightPosition" Margin="0,4"/>
-            <TextBlock x:Name="textBlockPosX" TextWrapping="Wrap" Text="{Binding m_PosX}" FontSize="24" Foreground="#FFF80202" Margin="0,4"/>
-            <TextBlock x:Name="textBlockPoxY" TextWrapping="Wrap" Text="{Binding m_PosY}" FontSize="24" Foreground="#FFF80202" Margin="0,4"/>
+            <Button x:Name="buttonHome" Content="Home" Height="19" Margin="0,4" Click="buttonHome_click"/>
+            <Button x:Name="buttonTest" Content="Test1" Height="19" Margin="0,4" Click="buttonTest_click"/>
+            <TextBlock x:Name="textBlockPosX" TextWrapping="Wrap" Text="{Binding PosX}" FontSize="24" Foreground="#FFF80202" Margin="0,4"/>
+            <TextBlock x:Name="textBlockPoxY" TextWrapping="Wrap" Text="{Binding PosY}" FontSize="24" Foreground="#FFF80202" Margin="0,4"/>
         </StackPanel>
 
     </Grid>

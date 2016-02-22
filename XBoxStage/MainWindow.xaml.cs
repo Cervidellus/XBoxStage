@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace XBoxStage
 {
@@ -24,6 +25,7 @@ namespace XBoxStage
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         Task m_backgroundWorkTask;
+        private Settings m_Settings;
 
         // Stage
         private string m_xAxisID = "45000001";
@@ -31,9 +33,24 @@ namespace XBoxStage
         //private int m_typeID = 45; // Long travel stage
         private LongTravelStage m_deviceX = null;
         private LongTravelStage m_deviceY = null;
+        private int m_waitLong = 60000;   // mS
+
+        // XBox
+        private SharpDX.XInput.Controller m_xbox = null;
+        private SharpDX.XInput.State m_xboxState;
+        private SharpDX.XInput.State m_xboxStateLast;
+
+        public event EventHandler OnXBoxGamepadButtonPressA;
+        public event EventHandler OnXBoxGamepadButtonPressAOneShot;
+        public event EventHandler OnXBoxGamepadButtonPressB;
+        public event EventHandler OnXBoxGamepadButtonPressBOneShot;
+
+        // ----------------------------------------------------------------------
+        // Properties which support binding in the UI
+        // ----------------------------------------------------------------------
 
         private double _posX;
-        public double m_PosX
+        public double PosX
         {
             get
             {
@@ -46,7 +63,7 @@ namespace XBoxStage
             }
         }
         private double _posY;
-        public double m_PosY
+        public double PosY
         {
             get
             {
@@ -59,18 +76,30 @@ namespace XBoxStage
             }
         }
 
-        // XBox
-        private SharpDX.XInput.Controller m_xbox = null;
-        private SharpDX.XInput.State m_xboxState;
-        private SharpDX.XInput.State m_xboxStateLast;
+        private bool _stageInitialized = false;
+        public bool StageInitialized        {
+            get
+            {
+                return _stageInitialized;
+            }
+            set
+            {
+                _stageInitialized = value;
+                EnabledBrush = new SolidColorBrush(_stageInitialized ? Colors.LightBlue : Colors.LightGray);
+                NotifyPropertyChanged();
+                NotifyPropertyChanged("EnabledBrush");
+            }
+        }
 
-        private Settings m_Settings;
+        public SolidColorBrush EnabledBrush
+        {
+            get; set;
+        }
 
-        public event EventHandler OnXBoxGamepadButtonPressA;
-        public event EventHandler OnXBoxGamepadButtonPressAOneShot;
-        public event EventHandler OnXBoxGamepadButtonPressB;
-        public event EventHandler OnXBoxGamepadButtonPressBOneShot;
 
+        // ----------------------------------------------------------------------
+        // MainWindow
+        // ----------------------------------------------------------------------
         public MainWindow() 
         {
             InitializeComponent();
@@ -103,10 +132,12 @@ namespace XBoxStage
                 Debug.WriteLine("ButtonBOneShot");
             };
 
-
+            StageInitialized = false;
         }
 
-        // Property notification goo
+        // ----------------------------------------------------------------------
+        // Property notification boilerplate
+        // ----------------------------------------------------------------------
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -117,9 +148,17 @@ namespace XBoxStage
             }
         }
 
+        // ----------------------------------------------------------------------
+        // XBox
+        // ----------------------------------------------------------------------
+
         private void FindXBoxController()
         {
             m_xbox  = new SharpDX.XInput.Controller(UserIndex.Any);
+            if (!m_xbox.IsConnected)
+            {
+                Debug.WriteLine("Could not connect to XBox");
+            }
         }
 
         // return true if the button state just transitioned from 0 to 1
@@ -134,6 +173,7 @@ namespace XBoxStage
             return m_xboxState.Gamepad.Buttons.HasFlag(button);
         }
 
+        // Main XBox processing
         private void PollGamepad()
         {
             if ((m_xbox == null) || !m_xbox.IsConnected) return;
@@ -177,16 +217,20 @@ namespace XBoxStage
                 magnitude = 0.0;
                 normalizedMagnitude = 0.0;
 
-                // deviceX.Stop(6000);
+                // m_deviceX.Stop(6000);
             }
 
-            //deviceX.MoveContinuous(MotorDirection.Forward);
+            m_deviceX.MoveContinuous(MotorDirection.Forward);
 
         }
 
+        // ----------------------------------------------------------------------
+        // Stage
+        // ----------------------------------------------------------------------
+
         private void buttonConnect_Click(object sender, RoutedEventArgs e)
         {
-            //m_PosX = 100.999;
+            //PosX = 100.999;
             //return;
 
             if (m_deviceX != null) return;
@@ -227,6 +271,7 @@ namespace XBoxStage
 
             // start the device polling            
             m_deviceY.StartPolling(250);
+            StageInitialized = true;
         }
 
         private void buttonDisconnect_Click(object sender, RoutedEventArgs e)
@@ -241,6 +286,19 @@ namespace XBoxStage
             {
                 m_xbox = null;
             }
+            StageInitialized = false;
+        }
+
+        private void buttonHome_click(object sender, RoutedEventArgs e)
+        {
+            m_deviceX.Home(m_waitLong);
+            m_deviceY.Home(m_waitLong);
+        }
+
+        private void buttonTest_click(object sender, RoutedEventArgs e)
+        {
+            // Generic tester function
+            StageInitialized = !StageInitialized;
         }
     }
 }

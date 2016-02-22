@@ -127,6 +127,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="doc\Thorlabs.MotionControl.C_API.chm" />
+    <None Include="doc\Thorlabs.MotionControl.DotNet_API.chm" />
+    <None Include="doc\Thorlabs.MotionControl.KinesisHelp.chm" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
